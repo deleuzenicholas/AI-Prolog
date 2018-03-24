@@ -41,32 +41,59 @@ member_state(S, [_|T]) :-	member_state(S, T).
 
 /* move types */
 
-move(pickup(X), [handempty, clear(X), on(X, Y)],
-		[del(handempty), del(clear(X)), del(on(X, Y)),
+move(pickup(X), [handempty, cranein1, clear(X), on1(X, Y)],
+		[del(handempty), del(clear(X)), del(on1(X, Y)),
 				 add(clear(Y)),	add(holding(X))]).
 
-move(pickup(X), [handempty, clear(X), ontable(X)],
-		[del(handempty), del(clear(X)), del(ontable(X)),
+move(pickup(X), [handempty, cranein1, clear(X), ontable1(X)],
+		[del(handempty), del(clear(X)), del(ontable1(X)),
 				 add(holding(X))]).
 
-move(putdown(X), [holding(X)],
-		[del(holding(X)), add(ontable(X)), add(clear(X)),
+move(pickup(X), [handempty, cranein2, clear(X), on2(X, Y)],
+		[del(handempty), del(clear(X)), del(on2(X, Y)),
+				 add(clear(Y)),	add(holding(X))]).
+
+move(pickup(X), [handempty, cranein2, clear(X), ontable2(X)],
+		[del(handempty), del(clear(X)), del(ontable2(X)),
+				add(holding(X))]).
+
+move(putdown(X), [holding(X), cranein1],
+		[del(holding(X)), add(ontable1(X)), add(clear(X)),
 				  add(handempty)]).
 
-move(stack(X, Y), [holding(X), clear(Y)],
-		[del(holding(X)), del(clear(Y)), add(handempty), add(on(X, Y)),
+move(putdown(X), [holding(X), cranein2],
+		[del(holding(X)), add(ontable2(X)), add(clear(X)),
+				  add(handempty)]).
+
+move(stack(X, Y), [holding(X), clear(Y), ontable1(Y), cranein1],
+		[del(holding(X)), del(clear(Y)), add(handempty), add(on1(X, Y)),
 				  add(clear(X))]).
 
-move(goroom1, [handempty],
-		[])
+move(stack(X, Y), [holding(X), clear(Y), on1(Y, Z), cranein1],
+		[del(holding(X)), del(clear(Y)), add(handempty), add(on1(X, Y)),
+				  add(clear(X))]).
+
+move(stack(X, Y), [holding(X), clear(Y), ontable2(Y), cranein2],
+		[del(holding(X)), del(clear(Y)), add(handempty), add(on2(X, Y)),
+				  add(clear(X))]).
+
+move(stack(X, Y), [holding(X), clear(Y), on2(Y, Z), cranein2],
+		[del(holding(X)), del(clear(Y)), add(handempty), add(on2(X, Y)),
+				  add(clear(X))]).
+
+move(goroom1, [cranein2],
+		[del(cranein2), add(cranein1)]).
+
+move(goroom2, [cranein1],
+		[del(cranein1), add(cranein2)]).
 /* run commands */
 
 go(S, G) :- plan(S, G, [S], []).
 
-test :- go([handempty, inroom1, ontable1(b), ontable1(c), on(a, b), clear(c), clear(a)],
-	          [handempty, inroom1, ontable1(c), on(a,b), on(b, c), clear(a)]).
+test :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), clear(a)],
+	          [handempty, cranein1, ontable1(c), on1(a,b), on1(b, c), clear(a)]).
 
-test2 :- go([handempty, inroom1, ontable1(b), ontable1(c), on(a, b), clear(c), clear(a)],
-	          [handempty, inroom1, ontable2(b), on(c, b), on(a, c), clear(a)).
+test2 :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), clear(a)],
+	          [handempty, cranein1, ontable2(b), on2(c, b), on2(a, c), clear(a)).
 
 
