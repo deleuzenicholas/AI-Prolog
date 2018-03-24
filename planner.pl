@@ -56,14 +56,17 @@ move(putdown(X), [holding(X)],
 move(stack(X, Y), [holding(X), clear(Y)],
 		[del(holding(X)), del(clear(Y)), add(handempty), add(on(X, Y)),
 				  add(clear(X))]).
+
+move(goroom1, [handempty],
+		[])
 /* run commands */
 
 go(S, G) :- plan(S, G, [S], []).
 
-test :- go([handempty, ontable(b), ontable(c), on(a, b), clear(c), clear(a)],
-	          [handempty, ontable(c), on(a,b), on(b, c), clear(a)]).
+test :- go([handempty, inroom1, ontable1(b), ontable1(c), on(a, b), clear(c), clear(a)],
+	          [handempty, inroom1, ontable1(c), on(a,b), on(b, c), clear(a)]).
 
-test2 :- go([handempty, ontable(b), ontable(c), on(a, b), clear(c), clear(a)],
-	          [handempty, ontable(a), ontable(b), on(c, b), clear(a), clear(c)]).
+test2 :- go([handempty, inroom1, ontable1(b), ontable1(c), on(a, b), clear(c), clear(a)],
+	          [handempty, inroom1, ontable2(b), on(c, b), on(a, c), clear(a)).
 
 
