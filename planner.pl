@@ -12,7 +12,7 @@
 :- module( planner,
 	   [
 	       plan/4,change_state/3,conditions_met/2,member_state/2,
-	       move/3,go/2,test/0,test2/0
+	       move/3,go/2,test/0,test2/0,test3/0
 	   ]).
 
 :- [utils].
@@ -69,7 +69,7 @@ move(stack(X, Y), [holding(X), clear(Y), ontable1(Y), cranein1],
 		[del(holding(X)), del(clear(Y)), add(handempty), add(on1(X, Y)),
 				  add(clear(X))]).
 
-move(stack(X, Y), [holding(X), clear(Y), on1(Y, Z), cranein1],
+move(stack(X, Y), [holding(X), clear(Y), on1(Y, _), cranein1],
 		[del(holding(X)), del(clear(Y)), add(handempty), add(on1(X, Y)),
 				  add(clear(X))]).
 
@@ -77,7 +77,7 @@ move(stack(X, Y), [holding(X), clear(Y), ontable2(Y), cranein2],
 		[del(holding(X)), del(clear(Y)), add(handempty), add(on2(X, Y)),
 				  add(clear(X))]).
 
-move(stack(X, Y), [holding(X), clear(Y), on2(Y, Z), cranein2],
+move(stack(X, Y), [holding(X), clear(Y), on2(Y, _), cranein2],
 		[del(holding(X)), del(clear(Y)), add(handempty), add(on2(X, Y)),
 				  add(clear(X))]).
 
@@ -86,6 +86,7 @@ move(goroom1, [cranein2],
 
 move(goroom2, [cranein1],
 		[del(cranein1), add(cranein2)]).
+
 /* run commands */
 
 go(S, G) :- plan(S, G, [S], []).
@@ -94,6 +95,8 @@ test :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), 
 	          [handempty, cranein1, ontable1(c), on1(a,b), on1(b, c), clear(a)]).
 
 test2 :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), clear(a)],
-	          [handempty, cranein1, ontable2(b), on2(c, b), on2(a, c), clear(a)).
+	          [handempty, cranein1, ontable2(b), on2(c, b), on2(a, c), clear(a)]).
+
+test3 :- go([])
 
 
