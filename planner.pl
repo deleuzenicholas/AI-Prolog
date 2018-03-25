@@ -12,7 +12,7 @@
 :- module( planner,
 	   [
 	       plan/4,change_state/3,conditions_met/2,member_state/2,
-	       move/3,go/2,test/0,test2/0,test3/0
+	       move/3,go/2,test/0,test2/0
 	   ]).
 
 :- [utils].
@@ -96,7 +96,3 @@ test :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), 
 
 test2 :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), clear(a)],
 	          [handempty, cranein1, ontable2(b), on2(c, b), on2(a, c), clear(a)]).
-
-test3 :- go([])
-
-
