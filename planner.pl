@@ -1,33 +1,33 @@
 
-%%%%%%%%% Simple Prolog Planner %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% Two Room Prolog Planner %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
-%%% Based on one of the sample programs in:
+%%% University of Central Florida
+%%% CAP4630 - Spring 2018
 %%%
-%%% Artificial Intelligence:
-%%% Structures and strategies for complex problem solving
-%%%
-%%% by George F. Luger and William A. Stubblefield
+%%% by Gaelen Dignan and Nicholas Deleuze
 %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- module( planner,
 	   [
-	       plan/4,change_state/3,conditions_met/2,member_state/2,
-	       move/3,go/2,test/0,test2/0
+	       plan/6,change_state/3,conditions_met/2,member_state/2,
+	       move/3,go/3,test/0,test2/0
 	   ]).
 
 :- [utils].
 
-plan(State, Goal, _, Moves) :-	equal_set(State, Goal),
+plan(State, Goal, _, _, _, Moves) :-	equal_set(State, Goal),
 				write('moves are'), nl,
 				reverse_print_stack(Moves).
-plan(State, Goal, Been_list, Moves) :-
+plan(State, Goal, Depth, Curr_depth, Been_list, Moves) :-
+				Depth > Curr_depth,
 				move(Name, Preconditions, Actions),
 				conditions_met(Preconditions, State),
 				change_state(State, Actions, Child_state),
 				not(member_state(Child_state, Been_list)),
 				stack(Child_state, Been_list, New_been_list),
 				stack(Name, Moves, New_moves),
-			plan(Child_state, Goal, New_been_list, New_moves),!.
+			plan(Child_state, Goal, Depth, Curr_depth + 1, New_been_list, New_moves),!.
+
 
 change_state(S, [], S).
 change_state(S, [add(P)|T], S_new) :-	change_state(S, T, S2),
@@ -89,12 +89,14 @@ move(goroom2, [cranein1],
 
 /* run commands */
 
-go(S, G) :- plan(S, G, [S], []).
+go(S, G, D) :- plan(S, G, D, 1, [S], []).
+go(S, G, D) :- go(S, G, D + 1),!.
+
 
 test :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), clear(a)],
-	          [handempty, cranein1, ontable1(c), on1(a,b), on1(b, c), clear(a)]).
+	          [handempty, cranein1, ontable1(c), on1(a,b), on1(b, c), clear(a)], 5).
 
 test2 :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), clear(a)],
-	          [handempty, cranein1, ontable2(b), on2(c, b), on2(a, c), clear(a)]).
+	          [handempty, cranein1, ontable2(b), on2(c, b), on2(a, c), clear(a)], 7).
 
 
