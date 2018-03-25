@@ -1,5 +1,5 @@
 
-%%%%%%%%% Two Room Prolog Planner %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% Two Room Prolog Planner - IDS Version %%%%%%%%%%
 %%%
 %%% University of Central Florida
 %%% CAP4630 - Spring 2018
