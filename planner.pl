@@ -1,12 +1,10 @@
 
-%%%%%%%%% Simple Prolog Planner %%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% Two Room Prolog Planner %%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%
-%%% Based on one of the sample programs in:
+%%% University of Central Florida
+%%% CAP4630 - Spring 2018
 %%%
-%%% Artificial Intelligence:
-%%% Structures and strategies for complex problem solving
-%%%
-%%% by George F. Luger and William A. Stubblefield
+%%% by Gaelen Dignan and Nicholas Deleuze
 %%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- module( planner,
