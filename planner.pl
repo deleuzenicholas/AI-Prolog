@@ -10,7 +10,7 @@
 :- module( planner,
 	   [
 	       plan/5,change_state/3,conditions_met/2,member_state/2,
-	       move/3,go/3,test/0,test2/0
+	       move/3,go/3,test/0,test1/0,test2/0
 	   ]).
 
 :- [utils].
@@ -92,8 +92,10 @@ move(goroom2, [cranein1],
 go(S, G, D) :- plan(S, G, D, [S], []),!.
 go(S, G, D) :- go(S, G, D + 1).
 
+test :- go([handempty, cranein1, ontable1(c), on1(b, c), on1(a, b), clear(a)],
+			[handempty, cranein2, ontable2(c), on2(b, c), on2(a, b), clear(a)], 1).
 
-test :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), clear(a)],
+test1 :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), clear(a)],
 	          [handempty, cranein1, ontable1(c), on1(a,b), on1(b, c), clear(a)], 1).
 
 test2 :- go([handempty, cranein1, ontable1(b), ontable1(c), on1(a, b), clear(c), clear(a)],
